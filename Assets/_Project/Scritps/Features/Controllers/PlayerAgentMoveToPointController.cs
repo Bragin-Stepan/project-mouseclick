@@ -1,0 +1,61 @@
+using UnityEngine;
+using UnityEngine.AI;
+
+public class PlayerAgentMoveToPointController : Controller
+{
+    private IDirectionalMovable _movable;
+    private IDirectionalRotatable _rotatable;
+    
+    private PlayerInput _input;
+    
+    private Vector3 _targetPosition;
+    private readonly LayerMask _movableMask;
+    private NavMeshQueryFilter _queryFilter;
+    private float _minDistanceToTarget;
+    
+    private NavMeshPath _pathToTarget = new ();
+
+    public PlayerAgentMoveToPointController(
+        IDirectionalMovable movable,
+        IDirectionalRotatable rotatable,
+        PlayerInput input,
+        LayerMask movableMask,
+        NavMeshQueryFilter queryFilter,
+        float minDistanceToTarget = 0.05f
+    )
+    {
+        _movable = movable;
+        _rotatable = rotatable;
+        _input = input;
+        _queryFilter = queryFilter;
+        _movableMask = movableMask;
+        _minDistanceToTarget = minDistanceToTarget;
+    }
+    
+    protected override void UpdateLogic(float deltaTime)
+    {
+        if (_input.OnRightClick)
+        {
+            if (RaycastUtils.TryGetHitWithMask(Camera.main, _input.PointPosition, _movableMask, out RaycastHit hit))
+                _targetPosition = hit.point;
+        }
+        
+        if (NavMeshUtils.TryGetPath(_movable.Position, _targetPosition, _queryFilter, _pathToTarget))
+        {
+            float distanceToTarget = NavMeshUtils.GetPathLength(_pathToTarget);
+
+            if (IsTargetReached(distanceToTarget) == false)
+            {
+                _movable.Resume();
+                _movable.SetMoveDirection(_targetPosition);
+                _rotatable.SetRotateDirection(_movable.CurrentVelocity);
+                return;
+            }
+        }
+
+        _movable.Stop();
+        _rotatable.Stop();
+    }
+    
+    private bool IsTargetReached(float distanceToTarget) => distanceToTarget <= _minDistanceToTarget;
+}
