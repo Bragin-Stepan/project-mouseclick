@@ -1902,7 +1902,7 @@ GameObject:
   - component: {fileID: 244849086}
   - component: {fileID: 244849088}
   m_Layer: 0
-  m_Name: HealthItem
+  m_Name: HealItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
