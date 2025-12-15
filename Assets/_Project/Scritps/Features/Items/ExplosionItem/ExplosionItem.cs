@@ -15,7 +15,7 @@ public class ExplosionItem : MonoBehaviour
     private void FixedUpdate()
     {
         if (TryDetectTarget())
-            StartCoroutine(DetonateRoutine());
+            StartCoroutine(DetonationProcess());
     }
 
     private bool TryDetectTarget()
@@ -32,7 +32,7 @@ public class ExplosionItem : MonoBehaviour
         return false;
     }
     
-    private IEnumerator DetonateRoutine()
+    private IEnumerator DetonationProcess()
     {
         yield return new WaitForSeconds(_timeToExplosion - 0.01f);
         IsExploded = true;
