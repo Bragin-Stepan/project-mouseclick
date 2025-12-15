@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [SelectionBase]
-public class AgentCharacter : MonoBehaviour, IDirectionalRotatable, IDirectionalMovable, IDamageable
+public class AgentCharacter : MonoBehaviour, IDirectionalRotatable, IDirectionalMovable, IDamageable, IHealable
 {
     private AgentMover _mover;
     private IDirectionalRotator _rotator;
@@ -18,8 +18,9 @@ public class AgentCharacter : MonoBehaviour, IDirectionalRotatable, IDirectional
     public Vector3 TargetPosition => _agent.destination;
     public Vector3 CurrentVelocity => _mover.CurrentVelocity;
     public Quaternion CurrentRotation => _rotator.CurrentRotation;
-    public float HeathPercent => _health.HealthPercent;
     
+    public bool CanHeal => !_health.IsFullHealth;
+    public float HeathPercent => _health.HealthPercent;
     public bool IsDamaged => _health.IsDamaged;
     public bool IsDead => _health.IsDead;
     
@@ -42,7 +43,9 @@ public class AgentCharacter : MonoBehaviour, IDirectionalRotatable, IDirectional
     
     public void SetRotateDirection(Vector3 direction) => _rotator.Rotate(direction, _rotateSpeed);
     
-    public void TakeDamage(float damage) =>_health.TakeDamage(damage);
+    public void TakeDamage(float damage) =>_health.Reduce(damage);
+    
+    public void Heal(float value) =>_health.Increase(value);
     
     public void SetDamage(bool value) =>_health.SetDamage(value);
     

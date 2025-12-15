@@ -5,6 +5,7 @@ using UnityEngine.AI;
 public class Game : MonoBehaviour
 {
     [SerializeField] private AgentCharacter _player;
+    [SerializeField] private AudionManager _audio;
     [SerializeField] private LayerMask _layerMaskToMove;
     [SerializeField] private VFX _vfx;
     [SerializeField] private CameraController _camera;
@@ -24,7 +25,7 @@ public class Game : MonoBehaviour
             areaMask = 1
         };
 
-        _vfx.Initialize(_input, _player);
+        _vfx.Initialize(_audio, _input, _player);
         _camera.Initialize(_input);
         
         _characterController = new PlayerAgentMoveToPointController(
@@ -35,6 +36,8 @@ public class Game : MonoBehaviour
             _navMeshFilter);
         
         _characterController.Enable();
+        
+        _audio.StartBGM(AudioNameKey.Gameplay);
     }
 
     private void Update()

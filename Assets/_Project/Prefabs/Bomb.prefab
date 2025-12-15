@@ -432,8 +432,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 977aaf64f99e4443b3625e69363278c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bomb: {fileID: 34411523095873836}
-  _explosionEffect: {fileID: 0}
+  _item: {fileID: 34411523095873836}
+  _explosionEffectPrefab: {fileID: 670669108184407631, guid: fe367dab0f0142247898fc93d731729e, type: 3}
   _activateEffect: {fileID: 765327268445258532}
 --- !u!1 &5941489009915968965
 GameObject:
