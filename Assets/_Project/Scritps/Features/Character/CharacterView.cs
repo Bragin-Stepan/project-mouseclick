@@ -14,6 +14,7 @@ public class CharacterView : MonoBehaviour
      private readonly int _isRunningKey = Animator.StringToHash("IsRunning");
      private readonly int _damagedKey = Animator.StringToHash("Damaged");
      private readonly int _isDeadKey = Animator.StringToHash("IsDead");
+     private readonly int _inJumpProcessKey = Animator.StringToHash("InJumpProcess");
 
      [SerializeField] private Animator _animator;
      [SerializeField] private AgentCharacter _character;
@@ -40,7 +41,10 @@ public class CharacterView : MonoBehaviour
          RunningProcess(_character.CurrentVelocity.magnitude > MovementDeadZone);
          InjureProcess();
          HealthBarProcess();
+         InJumpProcess();
      }
+
+     private void InJumpProcess() => _animator.SetBool(_inJumpProcessKey, _character.InJumpProcess);
 
      private void HealthBarProcess()
      {

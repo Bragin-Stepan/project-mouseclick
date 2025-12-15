@@ -31,6 +31,7 @@ public class Game : MonoBehaviour
         _characterController = new PlayerAgentMoveToPointController(
             _player,
             _player,
+            _player,
             _input,
             _layerMaskToMove,
             _navMeshFilter);

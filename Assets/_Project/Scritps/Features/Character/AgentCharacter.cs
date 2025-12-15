@@ -2,9 +2,10 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [SelectionBase]
-public class AgentCharacter : MonoBehaviour, IDirectionalRotatable, IDirectionalMovable, IDamageable, IHealable
+public class AgentCharacter : MonoBehaviour, IDirectionalRotatable, IDirectionalMovable, IDirectionalJumpable, IDamageable, IHealable
 {
     private AgentMover _mover;
+    private AgentJumper _jumper;
     private IDirectionalRotator _rotator;
     private Health _health;
     private NavMeshAgent _agent;
@@ -12,6 +13,7 @@ public class AgentCharacter : MonoBehaviour, IDirectionalRotatable, IDirectional
     [SerializeField] private float _moveSpeed = 5;
     [SerializeField] private float _rotateSpeed = 800;
     [SerializeField] private float _maxHealth = 60;
+    [SerializeField] private AnimationCurve _jumpCurve;
     
     public bool IsStopped => _mover.IsStopped;
     public Vector3 Position => transform.position;
@@ -24,12 +26,15 @@ public class AgentCharacter : MonoBehaviour, IDirectionalRotatable, IDirectional
     public bool IsDamaged => _health.IsDamaged;
     public bool IsDead => _health.IsDead;
     
+    public bool InJumpProcess => _jumper.InProcess;
+    
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
         _agent.updateRotation = false;
         
         _mover = new AgentMover(_agent, _moveSpeed);
+        _jumper = new AgentJumper(_agent, _moveSpeed,_jumpCurve, this);
         _rotator = new TransformRotatorDirection(transform);
         _health = new Health(_maxHealth);
     }
@@ -52,4 +57,18 @@ public class AgentCharacter : MonoBehaviour, IDirectionalRotatable, IDirectional
     public void Stop() => _mover.Stop();
 
     public void Resume() => _mover.Resume();
+
+    public bool IsOnNavMeshLink(out OffMeshLinkData offMeshLinkData)
+    {
+        if (_agent.isOnOffMeshLink)
+        {
+            offMeshLinkData = _agent.currentOffMeshLinkData;
+            return true;
+        }
+
+        offMeshLinkData = default(OffMeshLinkData);
+        return false;
+    }
+
+    public void Jump(OffMeshLinkData offMeshLinkData) => _jumper.Jump(offMeshLinkData);
 }
