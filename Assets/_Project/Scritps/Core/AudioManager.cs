@@ -39,15 +39,18 @@ public class AudionManager : MonoBehaviour
     public void StartBGM(string nameKey)
     {
         AudioClipData data = _audioDB.Get(nameKey);
-        AudioClip nextMusic = data.GetRandomClip();
+        if (data == null) return;
         
-        if (data == null || nextMusic == null)
+        AudioClip clip = data.GetRandomClip();
+        if (clip == null) return;
+        
+        if (data == null || clip == null)
         {
             Debug.LogError("Audio: null music group " + nameKey);
             return;
         }
         
-        _bgmSource.clip = nextMusic;
+        _bgmSource.clip = clip;
         _bgmSource.volume = data.Volume;
         _bgmSource.Play();
     }

@@ -1,9 +1,9 @@
 
 public static class AudioNameKey
 {
-    public static string Gameplay = "Gameplay";
-    public static string Pop = "Pop";
-    public static string PopLow = "PopLow";
+    public static readonly string Gameplay = "Gameplay";
+    public static readonly string Pop = "Pop";
+    public static readonly string PopLow = "PopLow";
 }
 
 

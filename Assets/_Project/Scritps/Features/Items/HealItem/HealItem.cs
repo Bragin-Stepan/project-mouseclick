@@ -8,6 +8,9 @@ public class HealItem: MonoBehaviour, IHealer
     public void HealTarget(IHealable target)
     {
         if(target.CanHeal)
+        {
             target.Heal(_healthAmount);
+            Destroy(gameObject);
+        }
     }
 }

@@ -36,7 +36,10 @@ public class Game : MonoBehaviour
             _navMeshFilter);
         
         _characterController.Enable();
-        
+    }
+
+    private void Start()
+    {
         _audio.StartBGM(AudioNameKey.Gameplay);
     }
 

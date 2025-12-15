@@ -45,7 +45,6 @@ public class CharacterView : MonoBehaviour
      private void HealthBarProcess()
      {
          _healthBar.RotateTo(Camera.main.transform.forward);
-         
          _healthBar.SetValue(_character.HeathPercent);
      }
 
