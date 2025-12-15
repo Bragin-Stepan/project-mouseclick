@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 [SelectionBase]
-public class Bomb : MonoBehaviour
+public class ExplosionItem : MonoBehaviour
 {
     [SerializeField] private float _explosionDamage;
     [SerializeField] private float _timeToExplosion;
@@ -10,7 +10,7 @@ public class Bomb : MonoBehaviour
     [SerializeField] private float _explosionRadius;
     
     public bool IsActivate { get ; private set; }
-    public bool IsExplosion { get ; private set; }
+    public bool IsExploded { get ; private set; }
 
     private void FixedUpdate()
     {
@@ -35,7 +35,7 @@ public class Bomb : MonoBehaviour
     private IEnumerator DetonateRoutine()
     {
         yield return new WaitForSeconds(_timeToExplosion - 0.01f);
-        IsExplosion = true;
+        IsExploded = true;
         
         yield return new WaitForSeconds(0.01f); // костыль
         Explode();
