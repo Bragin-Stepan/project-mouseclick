@@ -11,7 +11,7 @@ public class HealTrigger: MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent(out IHealer healer))
+        if(other.TryGetComponent(out IHealDealer healer))
             healer.HealTarget(_healable);
     }
 }

@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class Game : MonoBehaviour
 {
@@ -9,7 +11,7 @@ public class Game : MonoBehaviour
     [SerializeField] private LayerMask _layerMaskToMove;
     [SerializeField] private VFX _vfx;
     [SerializeField] private CameraController _camera;
-
+    
     private Controller _characterController;
     private PlayerInput _input;
 

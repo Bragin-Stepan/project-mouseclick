@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [SelectionBase]
-public class HealItem: MonoBehaviour, IHealer
+public class HealItem: MonoBehaviour, IHealDealer
 {
     [SerializeField] private float _healthAmount;
 
@@ -11,6 +11,18 @@ public class HealItem: MonoBehaviour, IHealer
         {
             target.Heal(_healthAmount);
             Destroy(gameObject);
+        }
+    }
+    
+    public void HealTargets(IHealable[] targets)
+    {
+        foreach (IHealable target in targets)
+        {
+            if(target.CanHeal)
+            {
+                target.Heal(_healthAmount);
+                Destroy(gameObject);
+            }
         }
     }
 }

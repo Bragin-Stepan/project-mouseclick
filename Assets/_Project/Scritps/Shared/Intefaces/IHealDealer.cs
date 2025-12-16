@@ -1,5 +1,5 @@
 
-public interface IHealer
+public interface IHealDealer
 {
     void HealTarget(IHealable target);
 }

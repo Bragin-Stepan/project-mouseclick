@@ -25,10 +25,12 @@ public class AudionManager : MonoBehaviour
     public void PlaySFX(string nameKey)
     {
         AudioClipData data = _audioDB.Get(nameKey);
-        if (data == null) return;
+        if (data == null)
+            return;
 
         AudioClip clip = data.GetRandomClip();
-        if (clip == null) return;
+        if (clip == null)
+            return;
 
         _sfxSource.clip = clip;
         _sfxSource.pitch = UnityEngine.Random.Range(MinValuePitch, MaxValuePitch);
@@ -39,24 +41,20 @@ public class AudionManager : MonoBehaviour
     public void StartBGM(string nameKey)
     {
         AudioClipData data = _audioDB.Get(nameKey);
-        if (data == null) return;
+        if (data == null)
+            return;
         
         AudioClip clip = data.GetRandomClip();
-        if (clip == null) return;
+        if (clip == null)
+            return;
         
         if (data == null || clip == null)
-        {
-            Debug.LogError("Audio: null music group " + nameKey);
             return;
-        }
         
         _bgmSource.clip = clip;
         _bgmSource.volume = data.Volume;
         _bgmSource.Play();
     }
 
-    public void StopBGM()
-    {
-        _bgmSource.Stop();
-    }
+    public void StopBGM() => _bgmSource.Stop();
 }
