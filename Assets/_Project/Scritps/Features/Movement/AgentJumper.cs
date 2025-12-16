@@ -28,12 +28,12 @@ public class AgentJumper
         
         _jumpProcess = _ctx.StartCoroutine(JumpProcess(offMeshLinkData));
     }
-
+    
     private IEnumerator JumpProcess(OffMeshLinkData offMeshLinkData)
     {
         Vector3 startPosition = offMeshLinkData.startPos;
         Vector3 endPosition = offMeshLinkData.endPos;
-
+    
         float duration = Vector3.Distance(startPosition, endPosition) / _speed;
         float progress = 0;
         

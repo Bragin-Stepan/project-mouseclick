@@ -10,6 +10,7 @@ public class CharacterView : MonoBehaviour
      private const float MaxLayerWeightValue = 1;
      
      private const string InjureLayerName = "InjuredLayer";
+     private const string GetHitLayerName = "GetHitLayer";
      
      private readonly int _isRunningKey = Animator.StringToHash("IsRunning");
      private readonly int _damagedKey = Animator.StringToHash("Damaged");
@@ -21,10 +22,12 @@ public class CharacterView : MonoBehaviour
      [SerializeField] private SliderUI _healthBar;
 
      private int _injureLayerIndex;
+     private int _getHitLayerIndex;
 
      private void Awake()
      {
          _injureLayerIndex = _animator.GetLayerIndex(InjureLayerName);
+         _getHitLayerIndex = _animator.GetLayerIndex(GetHitLayerName);
      }
 
      private void LateUpdate()
@@ -41,6 +44,7 @@ public class CharacterView : MonoBehaviour
          RunningProcess(_character.CurrentVelocity.magnitude > MovementDeadZone);
          InjureProcess();
          HealthBarProcess();
+         GetHitProcess();
          InJumpProcess();
      }
 
@@ -58,6 +62,14 @@ public class CharacterView : MonoBehaviour
              _animator.SetLayerWeight(_injureLayerIndex, MaxLayerWeightValue);
          else
              _animator.SetLayerWeight(_injureLayerIndex, MinLayerWeightValue);
+     }
+     
+     private void GetHitProcess()
+     {
+         if (_character.IsDamaged)
+             _animator.SetLayerWeight(_getHitLayerIndex, MaxLayerWeightValue);
+         else
+             _animator.SetLayerWeight(_getHitLayerIndex, MinLayerWeightValue);
      }
 
      private void RunningProcess(bool value) => _animator.SetBool(_isRunningKey, value);

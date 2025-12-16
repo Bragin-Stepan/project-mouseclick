@@ -53,17 +53,6 @@ public class PlayerAgentMoveToPointController : Controller
             if (RaycastUtils.TryGetHitWithMask(Camera.main, _input.PointPosition, _movableMask, out RaycastHit hit))
                 _targetPosition = hit.point;
         }
-        
-        // if (_Character.IsOnNavMeshLink(out OffMeshLinkData linkData))
-        // {
-        //     if (_Character.InJumpProcess == false)
-        //     {
-        //         _rotatable.SetRotateDirection(linkData.endPos - linkData.startPos);
-        //         _Character.InJumpProcess(linkData);
-        //     }
-        //
-        //     return;
-        // }
 
         if (NavMeshUtils.TryGetPath(_movable.Position, _targetPosition, _queryFilter, _pathToTarget))
         {
