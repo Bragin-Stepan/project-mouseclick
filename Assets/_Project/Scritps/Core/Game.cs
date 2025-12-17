@@ -1,14 +1,17 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class Game : MonoBehaviour
 {
     [SerializeField] private AgentCharacter _player;
+    [SerializeField] private AudionManager _audio;
     [SerializeField] private LayerMask _layerMaskToMove;
     [SerializeField] private VFX _vfx;
     [SerializeField] private CameraController _camera;
-
+    
     private Controller _characterController;
     private PlayerInput _input;
 
@@ -24,10 +27,11 @@ public class Game : MonoBehaviour
             areaMask = 1
         };
 
-        _vfx.Initialize(_input, _player);
+        _vfx.Initialize(_audio, _input, _player);
         _camera.Initialize(_input);
         
         _characterController = new PlayerAgentMoveToPointController(
+            _player,
             _player,
             _player,
             _input,
@@ -35,6 +39,11 @@ public class Game : MonoBehaviour
             _navMeshFilter);
         
         _characterController.Enable();
+    }
+
+    private void Start()
+    {
+        _audio.StartBGM(AudioNameKey.Gameplay);
     }
 
     private void Update()

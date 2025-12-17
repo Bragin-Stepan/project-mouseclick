@@ -13,14 +13,27 @@
         public bool IsDamaged { get; private set; }
         
         public float HealthPercent => _health / _maxHealth;
-
-        public void TakeDamage(float damage)
+        public float CurrentHealth => _health;
+        public bool IsFullHealth => _health >= _maxHealth;
+        
+        public void Increase(float value)
         {
-            if(damage < 0)
+            if (IsDead || value < 0)
                 return;
 
-            _health -= damage;
+            _health += value;
 
+            if (_health > _maxHealth)
+                _health = _maxHealth;
+        }
+
+        public void Reduce(float value)
+        {
+            if (IsDead || value < 0)
+                return;
+
+            _health -= value;
+            
             if (_health <= 0)
             {
                 _health = 0;

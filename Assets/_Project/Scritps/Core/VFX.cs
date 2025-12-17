@@ -10,6 +10,7 @@ public class VFX : MonoBehaviour
     
     private AgentCharacter _player;
     private PlayerInput _input;
+    private AudionManager _audio;
     
     private GameObject _movementIndicator;
     private ParticleSystem _clickEffect;
@@ -35,8 +36,9 @@ public class VFX : MonoBehaviour
         MovementIndicatorEffect();
     }
     
-    public void Initialize(PlayerInput input, AgentCharacter player)
+    public void Initialize(AudionManager audio, PlayerInput input, AgentCharacter player)
     {
+        _audio = audio;
         _input = input;
         _player = player;
     }
@@ -48,6 +50,8 @@ public class VFX : MonoBehaviour
             _clickEffect.gameObject.On();
             _clickEffect.transform.position = hit.point;
             _clickEffect.Play();
+            
+            _audio.PlaySFX(AudioNameKey.PopLow);
         }
     }
 
