@@ -22,7 +22,7 @@ public class AgentCharacter : MonoBehaviour, IDirectionalRotatable, IDirectional
     public Quaternion CurrentRotation => _rotator.CurrentRotation;
     
     public bool CanHeal => !_health.IsFullHealth;
-    public float HeathPercent => _health.HealthPercent;
+    public float HealthPercent => _health.HealthPercent;
     public bool IsDamaged => _health.IsDamaged;
     public bool IsDead => _health.IsDead;
     

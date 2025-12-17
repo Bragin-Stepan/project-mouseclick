@@ -6,13 +6,15 @@ public class HealDealerSpawner: MonoBehaviour
 {
     [SerializeField] private GameObject _healDealerPrefab;
     [SerializeField] private Transform _spawnPoint;
-    [SerializeField] private Vector3 _spawnAreaSize = new Vector3(6, 0, 6);
-    [SerializeField] private float _spawnInterval = 5f;
+    
     [SerializeField] private bool _autoSpawn;
+    [SerializeField] private float _autoSpawnInterval = 8f;
+    [SerializeField] private Vector3 _autoSpawnAreaSize;
     
     private NavMeshHit _navMeshHit;
-    private static readonly int MaxAttempts = 10;
-    private static readonly float MaxDistanceOffsetRadius = 3f;
+    
+    private const int MaxAttempts = 10;
+    private const float MaxDistanceOffsetRadius = 3f;
     
     private void Start()
     {
@@ -24,13 +26,25 @@ public class HealDealerSpawner: MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(_spawnInterval);
+            yield return new WaitForSeconds(_autoSpawnInterval);
 
             if (_autoSpawn == false)
                 yield break;
             
             TrySpawnHealer();
         }
+    }
+    
+    public void StartAutoSpawn()
+    {
+        _autoSpawn = true;
+        StartCoroutine(SpawnProcess());
+    }
+    
+    public void StopAutoSpawn()
+    {
+        _autoSpawn = false;
+        StopCoroutine(SpawnProcess());
     }
     
     public IHealDealer Spawn() => SpawnToPoint(_spawnPoint.position);
@@ -45,25 +59,19 @@ public class HealDealerSpawner: MonoBehaviour
         return null;
     }
 
-    public void StartAutoSpawn()
-    {
-        _autoSpawn = true;
-        StartCoroutine(SpawnProcess());
-    }
-
     private void TrySpawnHealer()
     {
         for (int i = 0; i < MaxAttempts; i++)
         {
             Vector3 randomPointHorizontal = _spawnPoint.position + new Vector3(
-                Random.Range(-_spawnAreaSize.x, _spawnAreaSize.x / 2),
+                Random.Range(-_autoSpawnAreaSize.x, _autoSpawnAreaSize.x / 2),
                 0,
-                Random.Range(-_spawnAreaSize.z, _spawnAreaSize.z / 2)
+                Random.Range(-_autoSpawnAreaSize.z, _autoSpawnAreaSize.z / 2)
             );
             
             if (NavMesh.SamplePosition(randomPointHorizontal, out _navMeshHit, MaxDistanceOffsetRadius, NavMesh.AllAreas))
             {
-                Vector3 spawnPoint = _navMeshHit.position + new Vector3(0, _spawnAreaSize.y, 0);
+                Vector3 spawnPoint = _navMeshHit.position + new Vector3(0, _autoSpawnAreaSize.y, 0);
                 
                 SpawnToPoint(spawnPoint);
                 return;
