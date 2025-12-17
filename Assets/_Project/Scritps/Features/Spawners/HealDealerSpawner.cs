@@ -19,7 +19,7 @@ public class HealDealerSpawner: MonoBehaviour
     private void Start()
     {
         if(_autoSpawn)
-            StartAutoSpawn();
+            AutoSpawn(true);
     }
     
     private IEnumerator SpawnProcess()
@@ -35,16 +35,14 @@ public class HealDealerSpawner: MonoBehaviour
         }
     }
     
-    public void StartAutoSpawn()
+    public void AutoSpawn(bool value)
     {
-        _autoSpawn = true;
-        StartCoroutine(SpawnProcess());
-    }
-    
-    public void StopAutoSpawn()
-    {
-        _autoSpawn = false;
-        StopCoroutine(SpawnProcess());
+        _autoSpawn = value;
+        
+        if (value == true)
+            StartCoroutine(SpawnProcess());
+        else
+            StopCoroutine(SpawnProcess());
     }
     
     public IHealDealer Spawn() => SpawnToPoint(_spawnPoint.position);

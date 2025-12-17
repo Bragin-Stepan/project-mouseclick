@@ -8,6 +8,8 @@ public class PlayerInput
     
     public bool OnClick => Input.GetMouseButtonDown(LeftMouseButtonKey);
     public bool OnRightClick => Input.GetMouseButtonDown(RightMouseButtonKey);
+    public bool OnInteract => Input.GetKeyDown(KeyCode.F);
+    
     public Vector3 PointPosition => Input.mousePosition;
     public Vector3 Direction => new (Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
 }

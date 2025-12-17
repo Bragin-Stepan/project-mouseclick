@@ -631,6 +631,7 @@ MonoBehaviour:
     m_Bits: 8
   _vfx: {fileID: 31315995}
   _camera: {fileID: 31315996}
+  _spawner: {fileID: 497043036}
 --- !u!114 &31315995
 MonoBehaviour:
   m_ObjectHideFlags: 0

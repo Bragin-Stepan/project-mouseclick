@@ -11,11 +11,14 @@ public class Game : MonoBehaviour
     [SerializeField] private LayerMask _layerMaskToMove;
     [SerializeField] private VFX _vfx;
     [SerializeField] private CameraController _camera;
+    [SerializeField] private HealDealerSpawner _spawner;
     
     private Controller _characterController;
     private PlayerInput _input;
 
     private NavMeshQueryFilter _navMeshFilter;
+
+    private bool _autoSpawn;
 
     private void Awake()
     {
@@ -50,10 +53,19 @@ public class Game : MonoBehaviour
     {
         _characterController.Update(Time.deltaTime);
 
+        if (_input.OnInteract)
+            SpawnHandler();
+                
         if (_player.IsDead)
         {
             _player.Stop();
             _characterController.Disable();
         }
+    }
+
+    private void SpawnHandler()
+    { 
+        _autoSpawn = !_autoSpawn;
+        _spawner.AutoSpawn(_autoSpawn);
     }
 }
