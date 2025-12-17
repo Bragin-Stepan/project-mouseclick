@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IStoppable
+public partial interface IStoppable
 {
     void Stop();
     void Resume();
