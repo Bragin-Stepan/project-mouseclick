@@ -6,15 +6,19 @@ using Random = UnityEngine.Random;
 
 public class Game : MonoBehaviour
 {
-    [SerializeField] private AgentCharacter _player;
+    [SerializeField] private AgentCharacter _playerPrefab;
+    [SerializeField] private Transform _startPoint;
+    
     [SerializeField] private AudionManager _audio;
-    [SerializeField] private LayerMask _layerMaskToMove;
     [SerializeField] private VFX _vfx;
     [SerializeField] private CameraController _camera;
+    
+    [SerializeField] private LayerMask _layerMaskToMove;
     [SerializeField] private HealDealerSpawner _spawner;
     
     private Controller _characterController;
     private PlayerInput _input;
+    private AgentCharacter _player;
 
     private NavMeshQueryFilter _navMeshFilter;
 
@@ -22,6 +26,7 @@ public class Game : MonoBehaviour
 
     private void Awake()
     {
+        _player = Instantiate(_playerPrefab, _startPoint.position,  Quaternion.identity, null);
         _input = new ();
         
         _navMeshFilter = new ()
