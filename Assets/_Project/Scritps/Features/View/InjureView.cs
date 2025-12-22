@@ -14,20 +14,22 @@ public class InjureView : MonoBehaviour
      private const float MaxLayerWeightValue = 1;
      
      private const string InjureLayerName = "InjuredLayer";
+     
+     private IHealable _healTaker;
 
      private void Awake()
      {
+         if (_target.TryGetComponent(out IHealable healTaker))
+             _healTaker = healTaker;
+         
          _injureLayerIndex = _animator.GetLayerIndex(InjureLayerName);
      }
 
      private void LateUpdate()
      {
-         if (_target.TryGetComponent(out IHealable healTaker))
-         {
-             if (healTaker.HealthPercent < InjureHealthPercent)
-                 _animator.SetLayerWeight(_injureLayerIndex, MaxLayerWeightValue);
-             else
-                 _animator.SetLayerWeight(_injureLayerIndex, MinLayerWeightValue);
-         }
+          if (_healTaker.HealthPercent < InjureHealthPercent)
+              _animator.SetLayerWeight(_injureLayerIndex, MaxLayerWeightValue);
+          else
+              _animator.SetLayerWeight(_injureLayerIndex, MinLayerWeightValue);
      }
 }

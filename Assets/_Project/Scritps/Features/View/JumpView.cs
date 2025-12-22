@@ -3,14 +3,21 @@ using UnityEngine;
 
 public class JumpView : MonoBehaviour
 {
-     private readonly int _inJumpProcessKey = Animator.StringToHash("InJumpProcess");
-
      [SerializeField] private Animator _animator;
      [SerializeField] private GameObject _target;
+     
+     private IDirectionalJumpable _jumpable;
+     
+     private readonly int _inJumpProcessKey = Animator.StringToHash("InJumpProcess");
+
+     private void Awake()
+     {
+         if (_target.TryGetComponent(out IDirectionalJumpable jumpable))
+             _jumpable = jumpable;
+     }
 
      private void LateUpdate()
      {
-         if (_target.TryGetComponent(out IDirectionalJumpable jumpable))
-             _animator.SetBool(_inJumpProcessKey, jumpable.InJumpProcess);
+          _animator.SetBool(_inJumpProcessKey, _jumpable.InJumpProcess);
      }
 }

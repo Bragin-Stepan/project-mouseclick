@@ -3,17 +3,25 @@ using UnityEngine;
 
 public class DamagedView : MonoBehaviour
 {
-     private readonly int _damagedKey = Animator.StringToHash("Damaged");
-
      [SerializeField] private Animator _animator;
      [SerializeField] private GameObject _target;
 
+     private IHealable _healTaker;
+     
+     private readonly int _damagedKey = Animator.StringToHash("Damaged");
+
+     private void Awake()
+     {
+         if (_target.TryGetComponent(out IHealable healTaker))
+            _healTaker = healTaker;
+     }
+
      private void LateUpdate()
      {
-         if (_target.TryGetComponent(out IHealable healTaker) && healTaker.IsDamaged)
+         if (_healTaker.IsDamaged)
          {
              _animator.SetTrigger(_damagedKey);
-             healTaker.SetDamage(false);
+             _healTaker.SetDamage(false);
          }
      }
 }
